@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4" style="position: relative;">
+  <!-- Imagen de fondo semitransparente -->
+  <div style="
+  background: url('/static/productos/img/bg-transparent.png') center/cover no-repeat;
+   opacity: 0.1;
+    position: absolute;
+     top:0; left:0;
+      width:100%; height:100%;
+       z-index: -1;">
+  </div>
+  <h1>{{ form.instance.pk|yesno:"Editar producto,Nuevo producto" }}</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-3">
+      {{ form.nombre.label_tag }}
+      {{ form.nombre }}
+      {{ form.nombre.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.descripcion.label_tag }}
+      {{ form.descripcion }}
+      {{ form.descripcion.errors }}
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        {{ form.precio.label_tag }}
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          {{ form.precio }}
+        </div>
+        {{ form.precio.errors }}
+      </div>
+      <div class="col">
+        {{ form.cantidad_stock.label_tag }}
+        {{ form.cantidad_stock }}
+        {{ form.cantidad_stock.errors }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'productos:lista' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
