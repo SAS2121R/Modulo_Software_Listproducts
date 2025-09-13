@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Alegres - Sistema de Usuarios</title>
+    <link rel="stylesheet" href="{% load static %}{% static 'usuarios/css/auth.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Sistema de autenticación moderno y seguro para Huellitas Alegres">
+</head>
+<body>
+    <!-- Contenedor principal con efectos visuales -->
+    <main class="auth-container" role="main" aria-labelledby="auth-title">
+        <!-- Header con diseño vibrante -->
+        <header class="auth-header">
+            <h1 id="auth-title">🐾 Huellitas Alegres</h1>
+            <p>Plataforma moderna de gestión veterinaria</p>
+        </header>
+
+        <!-- Navegación entre formularios con efectos -->
+        <nav class="switcher" role="tablist" aria-label="Seleccionar tipo de formulario">
+            <button 
+                type="button" 
+                class="active" 
+                data-form="login" 
+                role="tab" 
+                aria-selected="true" 
+                aria-controls="login-form"
+                id="login-tab">
+                ✨ Iniciar Sesión
+            </button>
+            <button 
+                type="button" 
+                data-form="register" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="register-form"
+                id="register-tab">
+                🚀 Registrarse
+            </button>
+        </nav>
+
+        <!-- Área de mensajes del sistema -->
+        <div id="message-area" aria-live="polite" aria-atomic="true">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}" 
+                         role="alert" 
+                         tabindex="0">
+                        {% if message.tags == 'error' %}⚠️{% else %}✅{% endif %} {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Sección de formularios con transiciones -->
+        <section class="form-section">
+            <!-- Formulario de Login -->
+            <div id="login-form" 
+                 class="form-slide active" 
+                 role="tabpanel" 
+                 aria-labelledby="login-tab">
+                <form method="post" action="{% url 'usuarios:login' %}" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="login-email" class="required">📧 Correo Electrónico</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            name="email" 
+                            placeholder="tu@email.com"
+                            required 
+                            autocomplete="email"
+                            aria-describedby="login-email-help"
+                            data-validation="email">
+                        <div id="login-email-help" class="help-text">
+                            💡 Ingresa tu correo electrónico registrado
+                        </div>
+                        <div class="error-text" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password" class="required">🔐 Contraseña</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            name="password" 
+                            placeholder="Tu contraseña segura"
+                            required 
+                            autocomplete="current-password"
+                            aria-describedby="login-password-help"
+                            data-validation="password">
+                        <div id="login-password-help" class="help-text">
+                            🛡️ Mínimo 8 caracteres con mayúsculas y números
+                        </div>
+                        <div class="error-text" role="alert"></div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" aria-describedby="login-submit-help">
+                        <span class="btn-text">🎯 Acceder al Sistema</span>
+                        <span class="btn-loading">⏳ Verificando credenciales...</span>
+                    </button>
+                    <div id="login-submit-help" class="help-text">
+                        🔥 Acceso instantáneo a tu cuenta
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="register-form" 
+                 class="form-slide" 
+                 role="tabpanel" 
+                 aria-labelledby="register-tab">
+                <form method="post" action="{% url 'usuarios:register' %}" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="register-first-name" class="required">👤 Nombre</label>
+                            <input 
+                                type="text" 
+                                id="register-first-name" 
+                                name="first_name" 
+                                placeholder="Tu nombre"
+                                required 
+                                autocomplete="given-name"
+                                aria-describedby="register-first-name-help"
+                                data-validation="name">
+                            <div id="register-first-name-help" class="help-text">
+                                ✨ Solo letras
+                            </div>
+                            <div class="error-text" role="alert"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register-last-name" class="required">👥 Apellido</label>
+                            <input 
+                                type="text" 
+                                id="register-last-name" 
+                                name="last_name" 
+                                placeholder="Tu apellido"
+                                required 
+                                autocomplete="family-name"
+                                aria-describedby="register-last-name-help"
+                                data-validation="name">
+                            <div id="register-last-name-help" class="help-text">
+                                ✨ Solo letras
+                            </div>
+                            <div class="error-text" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email" class="required">📧 Correo Electrónico</label>
+                        <input 
+                            type="email" 
+                            id="register-email" 
+                            name="email" 
+                            placeholder="tu@email.com"
+                            required 
+                            autocomplete="email"
+                            aria-describedby="register-email-help"
+                            data-validation="email">
+                        <div id="register-email-help" class="help-text">
+                            💌 Será tu usuario para iniciar sesión
+                        </div>
+                        <div class="error-text" role="alert"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="register-password" class="required">🔐 Contraseña</label>
+                            <input 
+                                type="password" 
+                                id="register-password" 
+                                name="password1" 
+                                placeholder="Contraseña segura"
+                                required 
+                                autocomplete="new-password"
+                                aria-describedby="register-password-help"
+                                data-validation="password">
+                            <div id="register-password-help" class="help-text">
+                                🛡️ Mín. 8 caracteres, mayúsculas y números
+                            </div>
+                            <div class="error-text" role="alert"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register-password-confirm" class="required">🔒 Confirmar</label>
+                            <input 
+                                type="password" 
+                                id="register-password-confirm" 
+                                name="password2" 
+                                placeholder="Repite la contraseña"
+                                required 
+                                autocomplete="new-password"
+                                aria-describedby="register-password-confirm-help"
+                                data-validation="password-confirm">
+                            <div id="register-password-confirm-help" class="help-text">
+                                🔄 Debe coincidir exactamente
+                            </div>
+                            <div class="error-text" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-phone">📱 Teléfono (Opcional)</label>
+                        <input 
+                            type="tel" 
+                            id="register-phone" 
+                            name="phone" 
+                            placeholder="+57 300 123 4567"
+                            autocomplete="tel"
+                            aria-describedby="register-phone-help"
+                            data-validation="phone">
+                        <div id="register-phone-help" class="help-text">
+                            📞 Para contacto de emergencia
+                        </div>
+                        <div class="error-text" role="alert"></div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" aria-describedby="register-submit-help">
+                        <span class="btn-text">🎉 Crear Mi Cuenta</span>
+                        <span class="btn-loading">⚡ Creando tu cuenta...</span>
+                    </button>
+                    <div id="register-submit-help" class="help-text">
+                        🚀 ¡Únete a nuestra comunidad veterinaria!
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Información adicional -->
+        <footer class="auth-footer" role="contentinfo">
+            <p>🌟 Sistema seguro con encriptación de última generación</p>
+            <p>💝 Desarrollado con amor para el cuidado animal</p>
+        </footer>
+    </main>
+
+    <!-- Scripts para funcionalidad avanzada -->
+    <script src="{% load static %}{% static 'usuarios/js/auth.js' %}"></script>
+    
+    <!-- Anuncio para lectores de pantalla -->
+    <div class="sr-only" aria-live="polite" id="screen-reader-announcements"></div>
+</body>
+</html>

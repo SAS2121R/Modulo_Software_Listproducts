@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'productos', # aplicacion personalizada para manejar productos de la tienda
+    'usuarios', # aplicacion personalizada para manejar autenticacion de usuarios
 ]
 
 MIDDLEWARE = [
@@ -68,14 +69,9 @@ WSGI_APPLICATION = 'huellitas_alegres.wsgi.application'
 
 DATABASES = {
     'default': {
-       'ENGINE': 'django.db.backends.mysql', # usando MySQL como motor de base de datos
-       'NAME': 'huellitas_alegres', # nombre de la base de datos
-       'USER': 'root', # usuario de la base de datos
-       'PASSWORD': 'Fuzzy2006', # contraseña del usuario de la base de datos
-       'HOST': '127.0.0.1',  # usar IP en lugar de localhost
-       'PORT': '3306',
-   }
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -119,3 +115,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración del modelo de usuario personalizado
+AUTH_USER_MODEL = 'usuarios.Usuario'

@@ -16,10 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from productos.views import inicio
+from django.shortcuts import redirect
+
+# Función para redirigir la página principal al sistema de autenticación
+def redirect_to_auth(request):
+    return redirect('usuarios:auth')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', inicio, name='inicio'),
+    path('', redirect_to_auth, name='inicio'),
+    path('usuarios/', include(('usuarios.urls', 'usuarios'), namespace='usuarios')),
     path('productos/', include(('productos.urls', 'productos'), namespace='productos')),
 ]

@@ -17,7 +17,19 @@
      <a class="navbar-brand" href="{% url 'inicio' %}">{{ tienda }}</a>
      <div class="collapse navbar-collapse">
        <ul class="navbar-nav ms-auto">
-         <li class="nav-item"><a href="{% url 'productos:lista' %}" class="nav-link">Productos</a></li>
+         {% if user.is_authenticated %}
+           <li class="nav-item"><a href="{% url 'productos:lista' %}" class="nav-link">Productos</a></li>
+           <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               Bienvenido, {{ user.email }}
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <li><a class="dropdown-item" href="{% url 'usuarios:logout' %}">Cerrar Sesión</a></li>
+             </ul>
+           </li>
+         {% else %}
+           <li class="nav-item"><a href="{% url 'usuarios:auth' %}" class="nav-link">Iniciar Sesión</a></li>
+         {% endif %}
        </ul>
      </div>
    </div>
